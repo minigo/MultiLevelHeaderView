@@ -14,8 +14,6 @@ GridTableHeaderModel::~GridTableHeaderModel () {
 
 QModelIndex GridTableHeaderModel::index (int row, int column, const QModelIndex &parent) const
 {
-    qDebug () << "------>" << row << column;
-
     if (!hasIndex (row, column, parent))
         return QModelIndex ();
     TableHeaderItem *parentItem;

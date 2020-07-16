@@ -146,11 +146,13 @@ int main (int argc, char *argv[])
     QWidget w;
     w.setLayout (new QVBoxLayout);
     GridTableView view;
+    QTableView view1;
     w.layout ()->addWidget (&view);
+    w.layout ()->addWidget (&view1);
 
-    QStandardItemModel model;
+    QStandardItemModel model (0, 4);
 
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 4; i++)
     {
         QList<QStandardItem *> items;
         for (int j = 0; j < 4; j++)
@@ -159,58 +161,57 @@ int main (int argc, char *argv[])
     }
 
     view.setModel (&model);
+    //view.setGridHeaderview (Qt::Horizontal, 2);
+    //GridTableHeaderView *hHeader = view.gridHeaderview (Qt::Horizontal);
 
-    view.setGridHeaderview (Qt::Horizontal, 2);
-
-    GridTableHeaderView *hHeader = view.gridHeaderview (Qt::Horizontal);
+    GridTableHeaderView *hHeader = new GridTableHeaderView (Qt::Horizontal, 2, 4);
+    hHeader->setRowHeight (0, 50);
 
     if (hHeader)
     {
-//        hHeader->setSpan (0, 0, 0, 4);
-//        hHeader->setCellLabel (0, 0, "Header");
 
-//        hHeader->setCellLabel (1, 0, "cell1");
-//        hHeader->setCellLabel (1, 1, "cell2");
-//        hHeader->setCellLabel (1, 2, "cell3");
-//        hHeader->setCellLabel (1, 3, "cell4");
-
-        hHeader->setSpan (0, 0, 0, 3);
-        hHeader->setSpan (0, 1, 1, 0);
 
         hHeader->setCellLabel (0, 0, "Header");
-        hHeader->setCellLabel (0, 1, "Header");
+        hHeader->setCellLabel (0, 3, "Header");
 
         hHeader->setCellLabel (1, 0, "cell1");
         hHeader->setCellLabel (1, 1, "cell2");
         hHeader->setCellLabel (1, 2, "cell3");
+
+        hHeader->setSpan (0, 0, 0, 3);
+        //hHeader->setSpan (0, 3, 2, 0);
     }
+
+    view.setHorizontalHeader (hHeader);
+
+    view1.setModel (hHeader->model ());
 
     //qDebug () << hHeader->model ()->rowCount () << hHeader->model ()->columnCount ();
-    GridTableHeaderModel *gthm = dynamic_cast<GridTableHeaderModel *> (hHeader->model ());
+    //    GridTableHeaderModel *gthm = dynamic_cast<GridTableHeaderModel *> (hHeader->model ());
 
-    {
-        QModelIndex ind = gthm->index (0, 0);
-        qDebug () << ind.data ();
-        qDebug () << ind.data (Qt::SizeHintRole);
-    }
+    //    {
+    //        QModelIndex ind = gthm->index (0, 0);
+    //        qDebug () << ind.data ();
+    //        qDebug () << ind.data (Qt::SizeHintRole);
+    //    }
 
-    {
-        QModelIndex ind = gthm->index (0, 1);
-        qDebug () << ind.data ();
-        qDebug () << ind.data (Qt::SizeHintRole);
-    }
+    //    {
+    //        QModelIndex ind = gthm->index (0, 1);
+    //        qDebug () << ind.data ();
+    //        qDebug () << ind.data (Qt::SizeHintRole);
+    //    }
 
-    {
-        QModelIndex ind = gthm->index (1, 0);
-        qDebug () << ind.data ();
-        qDebug () << ind.data (Qt::SizeHintRole);
-    }
+    //    {
+    //        QModelIndex ind = gthm->index (1, 0);
+    //        qDebug () << ind.data ();
+    //        qDebug () << ind.data (Qt::SizeHintRole);
+    //    }
 
-    {
-        QModelIndex ind = gthm->index (1, 3);
-        qDebug () << ind.data ();
-        qDebug () << ind.data (Qt::SizeHintRole);
-    }
+    //    {
+    //        QModelIndex ind = gthm->index (1, 3);
+    //        qDebug () << ind.data ();
+    //        qDebug () << ind.data (Qt::SizeHintRole);
+    //    }
 
     w.show ();
     return a.exec ();
